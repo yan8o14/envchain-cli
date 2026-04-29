@@ -73,3 +73,12 @@ func TestExportCmdEmptyVaultPrintsNotice(t *testing.T) {
 		t.Fatalf("unexpected error for empty vault: %v", err)
 	}
 }
+
+func TestExportCmdUnknownShellRejectsFlag(t *testing.T) {
+	t.Setenv("ENVCHAIN_PROJECT", "test-export-unknown-shell")
+
+	out, err := executeCommand("export", "--shell", "zsh")
+	if err == nil {
+		t.Fatalf("expected error for unsupported shell 'zsh', got output: %s", out)
+	}
+}
