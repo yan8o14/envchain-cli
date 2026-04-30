@@ -105,6 +105,20 @@ func TestList(t *testing.T) {
 	}
 }
 
+// TestListEmptyVault verifies that List returns an empty slice (not an error)
+// when no keys have been set.
+func TestListEmptyVault(t *testing.T) {
+	v := newTestVault(t, "myproject", "supersecret")
+
+	got, err := v.List()
+	if err != nil {
+		t.Fatalf("List on empty vault failed: %v", err)
+	}
+	if len(got) != 0 {
+		t.Errorf("expected empty list, got %v", got)
+	}
+}
+
 func TestWrongPasswordFailsDecrypt(t *testing.T) {
 	dir, err := os.MkdirTemp("", "envchain-vault-wrongpw-*")
 	if err != nil {
